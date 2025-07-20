@@ -3,6 +3,25 @@ app = Flask(__name__)
     
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #サインアップページの表示
 @app.route('/signup', methods = ['POST'])
 def signup ():
