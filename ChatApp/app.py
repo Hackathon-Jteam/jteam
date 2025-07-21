@@ -23,7 +23,7 @@ app = Flask(__name__)
 
 
 #サインアップページの表示
-@app.route('/signup', methods = ['POST'])
+@app.route('/signup', methods = ['GET'])
 def signup ():
     return render_template('signup.html')
 if __name__ == '__main__':
