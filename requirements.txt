@@ -24,4 +24,5 @@ shellescape==3.8.1
 urllib3==1.26.12
 webassets==2.0
 Werkzeug==2.2.2
-SQLAlchemy==2.0.41
+SQLAlchemy==1.4.48
+flask_sqlalchemy==3.0.3

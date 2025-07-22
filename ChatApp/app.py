@@ -1,8 +1,14 @@
 from flask import Flask, render_template, request
-from db import User, database, session
-from sqlalchemy import*
+from flask_sqlalchemy import SQLAlchemy
+import os
+from models import User , db
 app = Flask(__name__)
-db = sqlalchemy(app)
+
+base_dir = os.path.dirname(__file__)#ファイルの作成
+app.config['SQLALCHEMY_DATABASE_URI'] =  'sqlite:///' + os.path.join(base_dir, 'data.sqlite')#データベースとの接続
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #今作ったデータが変更さえているか追跡している　メモリ消費、警告が出るので基本はFalse
+
+db = SQLAlchemy(app)
 
 
 
