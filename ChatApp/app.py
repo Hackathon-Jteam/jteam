@@ -7,13 +7,13 @@ app = Flask(__name__)
 
 
 
+
 #トップページの表示
 @app.route('/', methods = ['GET'])
 def top ():
-    return render_template('top.html')
+    return render_template('top2.html')
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
-
 
 
 
