@@ -1,10 +1,13 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask_login import UserMixin, LoginManager, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask import Flask
+
 db = SQLAlchemy()
 
 #テーブル.カラム作成
-class User (db.Model):#db.ModelはSQLAlchemyが用意している親クラス　違うのを書いてしまうとただのpythonのクラスになる
+class User (db.Model, UserMixin):#db.ModelはSQLAlchemyが用意している親クラス　違うのを書いてしまうとただのpythonのクラスになる
     __tablename__ = 'users'#テーブル作成
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)#idカラム
     name = db.Column(db.String(255), nullable = False) #SQLAlchemyではVARCHARではなくString
@@ -28,3 +31,4 @@ class User (db.Model):#db.ModelはSQLAlchemyが用意している親クラス　
         self.password = password
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
+

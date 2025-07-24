@@ -41,7 +41,9 @@ class User (Base):
 
 #セッションの生成
 session_maker = sessionmaker(bind=db_engine)
-session = session_maker()    
+session = session_maker()
+
+Base.query = db_session.query_property()
 #テーブル操作    
 #Base.metadata.create_all(db_engine)
 #user01 = User ('yuu', 'hjohs@gmail','masa', 'utyu')
