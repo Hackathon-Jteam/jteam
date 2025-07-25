@@ -33,11 +33,11 @@ class User (db.Model, UserMixin):#db.ModelはSQLAlchemyが用意している親�
         self.updated_at = datetime.now()
 
     
-class Channel (db.Model, UserMixin):#db.ModelはSQLAlchemyが用意している親クラス　違うのを書いてしまうとただのpythonのクラスになる
+class Channel (db.Model):#db.ModelはSQLAlchemyが用意している親クラス　違うのを書いてしまうとただのpythonのクラスになる
     __tablename__ = 'channels'#テーブル作成
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     name = db.Column(db.String(255), nullable = False) 
-    description = db.Column(db.String(255), nullable = True) 
-    created_at = db.Column(db.DateTime, nullable = True)
-    updated_at = db.Column(db.DateTime, nullable = True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    description = db.Column(db.String(255), nullable = False) 
+    created_at = db.Column(db.DateTime, default=datetime.now, nullable = False)
+    updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now, nullable = False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)

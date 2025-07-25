@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import os
-from models import User, db
-from flask_login import UserMixin, LoginManager, login_user, logout_user
+from models import User, db, Channel
+from flask_login import UserMixin, LoginManager, login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
@@ -98,6 +98,7 @@ def login_process():
 
 #ログアウト処理
 @app.route('/logout')
+@login_required
 def logout():
     #セッションからログイン中のユーザー情報を削除
     logout_user()
@@ -106,15 +107,16 @@ def logout():
 
 #チャンネル一覧ページの作成
 @app.route('/channels', methods=['GET'])
+@login_required
 def channels_view():
     #セッションから取得したuidをuid変数に代入
-    uid = session.get('uid')
+    uid = current_user.id
     #もしuidがなければ、ログインページに遷移
     if uid is None:
         return redirect(url_for('login_view'))
     #uidがあったらChannnelのデータを取得する
     else:
-        channels = Channel.get_all()
+        channels = Channel.query.all()
         #チャンネル一覧ページを返す
         return render_template('channels.html', channels=channels)
 
@@ -122,7 +124,7 @@ def channels_view():
 @app.route('/channels', methods=['POST'])
 def create_channel():
     #セッションから取得したuid
-    uid = session.get('uid')
+    uid = current_user.id
     #もしuidがなければ、ログインページに遷移
     if uid is None:
         return redirect(url_for('login_view'))
