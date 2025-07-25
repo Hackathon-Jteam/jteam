@@ -2,7 +2,8 @@
 
 {% block title %}サイト名トップ{% endblock %}
 
-{% block nav %}<a href="{{url_for('signup')}}">新規登録</a>{% endblock %}
+{% block nav %}<a href="{{url_for('signup')}}">新規登録</a>
+<a href="{{url_for('login_view')}}">ログイン</a>{% endblock %}
 
 {% block main %}
 <img
