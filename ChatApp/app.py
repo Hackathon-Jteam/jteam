@@ -26,13 +26,10 @@ def load_user(user_id):
 
 
 
-
-
-
-
-
-
-
+#トップページの表示
+@app.route('/', methods = ['GET'])
+def top ():
+    return render_template('top.html')
 
 
 
