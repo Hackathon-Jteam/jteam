@@ -4,7 +4,7 @@ import os
 from models import User, db, Channel
 from flask_login import UserMixin, LoginManager, login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import Signup
+
 app = Flask(__name__)
 
 base_dir = os.path.dirname(__file__)#ファイルの作成
@@ -27,7 +27,7 @@ def load_user(user_id):
 
 
 #トップページの表示
-@app.route('/', methods   = ['GET'])
+@app.route('/', methods = ['GET'])
 def top ():
     return render_template('top.html')
 
@@ -36,24 +36,22 @@ def top ():
 
 
 #サインアップページの表示
-#@app.route('/signup', methods = ['GET'])
-#def signup ():
- #   return render_template('signup.html')
+@app.route('/signup', methods = ['GET'])
+def signup ():
+    return render_template('signup.html')
 
 #サインアップの処理
-@app.route('/signup', methods = ['GET','POST'])
-def signup ():
-    form = Signup()
-    if form.validate_on_submit():
-        new_user = User(
-            name = form.name.data,
-            email=form.email.data,
-            nickname=form.nickname.data,
-            password=generate_password_hash(form.password.data, method='sha256'))
-        db.session.add(new_user)
-        db.session.commit()
-        return render_template('mypage.html')
-    return render_template("signup.html",form = form)
+@app.route('/signup', methods = ['POST'])
+def signup_process():
+    name = request.form['name']
+    email = request.form['email']
+    nickname = request.form['nickname']
+    password = request.form['password']
+    new_user = User(name = name,email=email,nickname=nickname,password=generate_password_hash(password, method='sha256'))
+    db.session.add(new_user)
+    db.session.commit()
+    return render_template('mypage.html')
+   
   
   
 
@@ -148,11 +146,7 @@ def create_channel():
 
 
 
-#メッセージ送信処理
-@app.rout("/channels/<cid>/messages", methods=["POST"])
-def create_message(cid):
-    
-    
+
 
 
 
