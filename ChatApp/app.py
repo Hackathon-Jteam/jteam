@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import os
-from models import User, db
-from flask_login import UserMixin, LoginManager, login_user, logout_user
+from models import User, db, Channel
+from flask_login import UserMixin, LoginManager, login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
@@ -97,12 +97,52 @@ def login_process():
         
 
 #ログアウト処理
-#@app.route('/logout', method=['POST'])
-#def logout():
+@app.route('/logout')
+@login_required
+def logout():
     #セッションからログイン中のユーザー情報を削除
-    #logout_user()
+    logout_user()
     #ログインページに遷移
-    #return redirect(url_for('login_view'))
+    return redirect(url_for('login_view'))
+
+#チャンネル一覧ページの作成
+@app.route('/channels', methods=['GET'])
+@login_required
+def channels_view():
+    #セッションから取得したuidをuid変数に代入
+    uid = current_user.id
+    #もしuidがなければ、ログインページに遷移
+    if uid is None:
+        return redirect(url_for('login_view'))
+    #uidがあったらChannnelのデータを取得する
+    else:
+        channels = Channel.query.all()
+        #チャンネル一覧ページを返す
+        return render_template('channels.html', channels=channels)
+
+#チャンネルの作成
+@app.route('/channels', methods=['POST'])
+def create_channel():
+    #セッションから取得したuid
+    uid = current_user.id
+    #もしuidがなければ、ログインページに遷移
+    if uid is None:
+        return redirect(url_for('login_view'))
+    #チャンネルを作成するためのフォーム（channelTitle）に入力された情報を取得し、channel_name変数に代入
+    channel_name = request.form.get('channelTitle')
+    #models.pyのChannelクラスから取得
+    channel = Channel.query.filter_by(channel_name=channel_name).first()
+    #channelがチャンネル一覧（登録済み）になければ
+    if channel == None:
+        #channnel_description（チャンネルの説明）フォームに入力された情報を取得し、channel_description変数に代入
+        description = request.form.get('channelDescription')
+        #Channlクラスにuserid,channel_name,channel_descriptionが登録される
+        new_channel = Channel(name = name,description=description)
+        db.session.add(new_channel)
+        db.session.commit()
+        #チャンネル一覧ページに遷移する
+        return redirect(url_for('channels_view'))
+
 
 
 
