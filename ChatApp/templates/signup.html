@@ -7,24 +7,32 @@
 </head>
 <body>
     <h1>新規登録</h1>
-    <form action ='' method="post">
-        <div>
-            <label for = 'name'>NAME</label>
-            <input type = 'text' id = 'name' name = 'name'>
+    <form method="post">
+        {{ form.hidden_tag()}}
+        {% for field in form %}
+  {% for error in field.errors %}
+    <div style="color: red;">{{ field.label.text }}: {{ error }}</div>
+  {% endfor %}
+{% endfor %}
+    <div>
+            {{ form.name.label }}<br>
+            {{ form.name(size=32) }}
         </div>
         <div>
-            <label for = 'email'>EMAIL ADDRESS</label>
-            <input type ='text' name = 'email'>
+            {{ form.email.label }}<br>
+            {{ form.email(size=32) }}
         </div>
         <div>
-            <label for = 'nickname'>NICKNAME</label>
-            <input type = 'text' name = 'nickname'>
+            {{ form.nickname.label }}<br>
+            {{ form.nickname(size=32) }}
         </div>
         <div>
-            <label for = 'password'>PASSWORD</label>
-            <input type = 'password' name = 'password'>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
         </div>
-        <input type = 'submit' value="登録">
+        <div>
+            {{ form.submit() }}
+        </div>
     </form>
 </body>
 </html>
