@@ -3,7 +3,7 @@ from datetime import datetime
 from flask_login import UserMixin, LoginManager, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask
-
+from zoneinfo import ZoneInfo
 db = SQLAlchemy()
 
 #テーブル.カラム作成
@@ -29,15 +29,6 @@ class User (db.Model, UserMixin):#db.ModelはSQLAlchemyが用意している親�
         self.email = email
         self.nickname = nickname
         self.password = password
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
-
+        self.created_at = datetime.now(ZoneInfo("Asia/Tokyo"))#東京時間を確実に取得
+        self.updated_at = datetime.now(ZoneInfo("Asia/Tokyo"))#東京時間を確実に取得
     
-class Channel (db.Model):#db.ModelはSQLAlchemyが用意している親クラス　違うのを書いてしまうとただのpythonのクラスになる
-    __tablename__ = 'channels'#テーブル作成
-    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
-    name = db.Column(db.String(255), nullable = False) 
-    description = db.Column(db.String(255), nullable = False) 
-    created_at = db.Column(db.DateTime, default=datetime.now, nullable = False)
-    updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now, nullable = False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
