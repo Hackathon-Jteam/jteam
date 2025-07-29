@@ -32,3 +32,13 @@ class User (db.Model, UserMixin):#db.ModelはSQLAlchemyが用意している親�
         self.created_at = datetime.now(ZoneInfo("Asia/Tokyo"))#東京時間を確実に取得
         self.updated_at = datetime.now(ZoneInfo("Asia/Tokyo"))#東京時間を確実に取得
     
+#メッセージテーブル作成
+class Message (db.Model):
+    __tablename__ = 'messages'
+    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)#idカラム
+    user_id = db.Column(db.Integer, nullable=False)
+    channel_id = db.Column(db.Integer,nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, nullable = True)
+    updated_at = db.Column(db.DateTime, nullable = True)
+    deleted_at = db.Column(db.DateTime, nullable = True)

@@ -15,3 +15,4 @@ class Signup(FlaskForm):
         user = User.query.filter_by(nickname = nickname.data).first() #入力されたニックネームを引く数へ渡しデータベースと比べる
         if user:
             raise ValidationError('そのニックネーム名はすでに使用されています')#同じニックネームならエラーを返す
+        

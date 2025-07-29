@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import os
-from models import User, db, Channel
+from models import User, db, Message
 from flask_login import UserMixin, LoginManager, login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import Signup
+from datetime import datetime
+from zoneinfo import ZoneInfo
 app = Flask(__name__)
 
 base_dir = os.path.dirname(__file__)#ファイルの作成
@@ -149,14 +151,22 @@ def create_channel():
 
 
 #メッセージ送信処理
-@app.rout("/channels/<cid>/messages", methods=["POST"])
+""" @app.rout("/channels/<cid>/messages", methods=["POST"])
 def create_message(cid):
-    
-    
+    if content:#もし入力フォームが空じゃなかったら
+        new_message = Message(#新しく保存する行を作る
+        user_id = current_user.id#rログインユーザーのid current_userはflask_loginのクラス
+        channel_id =             #ユーザーが選択しているチャンネル
+        content = content        #入力されたメッセージ
+        created_at = datetime.now(ZoneInfo("Asia/Tokyo")))
+        db.session.add(new_message)
+        db.session.commit()
+    return redirect(url_for("create_message"))#空だったらページ移動なし
+message = 
+ """
 
 
-
-
+ 
   
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)  
